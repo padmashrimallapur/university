@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "student")
+@Table(name = "STUDENT")
 public class Student {
     @Id
     @GeneratedValue
@@ -20,12 +20,14 @@ public class Student {
     @OneToMany
     private List<Course> courses;
 
-    public Student(Integer studentId, Integer age, boolean fullTime){
-        this.studentId = studentId;
+    public Student(Person attendee, Integer age, boolean fullTime){
+        this.attendee = attendee;
         this.age = age;
         this.fullTime = fullTime;
         courses = new ArrayList<>();
     }
+
+    protected Student(){}
 
     public Integer getStudentId() {
         return studentId;

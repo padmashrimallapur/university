@@ -13,10 +13,13 @@ public class Person {
     @Column
     private  String lastName;
 
-    private Person(String firstName, String lastName){
+    public Person(String firstName, String lastName){
         this.firstName = firstName;
         this.lastName = lastName;
     }
+
+    protected Person(){}
+
 
     public String getFirstName() {
         return firstName;

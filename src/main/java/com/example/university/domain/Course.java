@@ -12,7 +12,7 @@ public class Course {
     @Column
     private String name;
 
-    @ManyToMany
+    @ManyToOne
     @JoinColumn
     private Department department;
 
