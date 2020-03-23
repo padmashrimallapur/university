@@ -1,6 +1,5 @@
 package com.example.university;
 
-import com.example.university.domain.Department;
 import com.example.university.repo.DepartmentRepository;
 import org.junit.After;
 import org.junit.Before;
@@ -19,12 +18,12 @@ public class JpaRepositoryDemo {
     @Test
     public void runJpaRepositoryMethods() {
 
-        departmentRepository.save(new Department("Maths"));
-        departmentRepository.flush();
-
-        departmentRepository.saveAndFlush(new Department("Science"));
-
-        departmentRepository.save(new Department("Chemistry"));
+//        departmentRepository.save(new Department("Maths"));
+//        departmentRepository.flush();
+//
+//        departmentRepository.saveAndFlush(new Department("Science"));
+//
+//        departmentRepository.save(new Department("Chemistry"));
 
         System.out.println("\n********* 3 Departments*************");
         departmentRepository.findAll().forEach(System.out::println);

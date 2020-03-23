@@ -15,11 +15,15 @@ public class Department {
     @Column
     private String name;
 
+    @OneToOne
+    private Staff chair;
+
     @OneToMany(mappedBy = "department", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Course> courses = new ArrayList<>();
 
     private Department() {
     }
+
 
     public Integer getId() {
         return id;
@@ -37,8 +41,9 @@ public class Department {
         this.name = name;
     }
 
-    public Department(String name){
+    public Department(String name, Staff chair) {
         this.name = name;
+        this.chair = chair;
     }
 
     public void addCourse(Course course){
