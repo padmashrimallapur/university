@@ -35,6 +35,27 @@ public class CrudRepositoryDemo {
         studentRepository.deleteAll();
         System.out.println("\n***************Students Removed***************");
         studentRepository.findAll().forEach(System.out::println);
+    }
 
+    @Test
+    public void intermediateQueryExamples() {
+        System.out.println("Find student by name and traverse entities  First name: Ansh  and Last name : Sharma\n " +
+                studentRepository.findByAttendeeFirstNameAndAttendeeLastName("Ansh", "Sharma"));
+        System.out.println("Find the student by person object \n" +
+                studentRepository.findByAttendee(new Person("Vijay", "Maja")));
+        System.out.println("Find the students who are older than 19  \n");
+        studentRepository.findByAgeGreaterThan(19).forEach(System.out::println);
+        System.out.println("Find the students who are younger than 19 \n");
+        studentRepository.findByAgeLessThan(19).forEach(System.out::println);
+        System.out.println("Find the student with last name fey despite the case \n" +
+                studentRepository.findByAttendeeLastNameIgnoreCase("FEY"));
+        System.out.println("Find all the students with 'm' in the last name");
+        studentRepository.findByAttendeeLastNameLike("%m%").forEach(System.out::println);
+        System.out.println("Find first student in alphabet \n" +
+                studentRepository.findFirstByOrderByAttendeeLastNameAsc());
+        System.out.println("Find oldest student \n" +
+                studentRepository.findTopByOrderByAgeDesc());
+        System.out.println("Find 3 oldest student");
+        studentRepository.findTop3ByOrderByAgeDesc().forEach(System.out::println);
     }
 }

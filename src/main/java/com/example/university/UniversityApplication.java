@@ -37,7 +37,7 @@ public class UniversityApplication implements CommandLineRunner {
         studentRepository.save(new Student(new Person("Ansh", "Sharma"), 20, fullTime));
         studentRepository.save(new Student(new Person("Vijay", "Maja"), 32, fullTime));
         studentRepository.save(new Student(new Person("padma", "Mallapur"), 30, fullTime));
-        studentRepository.save(new Student(new Person("Tina", "fey"), 25, fullTime));
+        studentRepository.save(new Student(new Person("Tina", "Fey"), 25, fullTime));
 
         //Staff
         Staff laura = staffRepository.save(new Staff(new Person("Laura", "ven")));

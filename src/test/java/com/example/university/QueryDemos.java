@@ -87,8 +87,5 @@ public class QueryDemos {
         System.out.println("Find the course where English101 is prerequeisite");
         System.out.println("english101 pid" + english101.getId());
         courseRepository.findCourseByPrerequisites(english101.getId()).forEach(System.out::println);
-
     }
-
-
 }
