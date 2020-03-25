@@ -1,7 +1,9 @@
 package com.example.university;
 
+import com.example.university.domain.Course;
 import com.example.university.domain.Person;
 import com.example.university.domain.Student;
+import com.example.university.repo.CourseRepository;
 import com.example.university.repo.StudentRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +17,9 @@ public class CrudRepositoryDemo {
 
     @Autowired
     StudentRepository studentRepository;
+
+    @Autowired
+    CourseRepository courseRepository;
 
     @Test
     public void simpleStudentCrudExample() {
@@ -57,5 +62,28 @@ public class CrudRepositoryDemo {
                 studentRepository.findTopByOrderByAgeDesc());
         System.out.println("Find 3 oldest student");
         studentRepository.findTop3ByOrderByAgeDesc().forEach(System.out::println);
+    }
+
+    /**
+     * @Query queries
+     * <p>
+     * Courses to persisted to H2 in-memory database at startup
+     * @See UniversityApplication
+     */
+    @Test
+    public void jpqlQueries() {
+        courseRepository.findByChairLastName("Sharma").forEach(System.out::println);
+
+        System.out.println("find course where Sharma is department chair member by last name method");
+        courseRepository.findByDepartmentChairMemberLastName("Sharma").forEach(System.out::println);
+
+        System.out.println("Find the course English101");
+        Course english101 = courseRepository.findByName("English101");
+
+        System.out.println("Find the course where English101 is prerequeisite");
+        System.out.println("english101 pid" + english101.getId());
+        courseRepository.findCourseByPrerequisites(english101.getId()).forEach(System.out::println);
+
+        System.out.println("\n Course view for the English101 " + courseRepository.getCourseView(english101.getId()));
     }
 }
