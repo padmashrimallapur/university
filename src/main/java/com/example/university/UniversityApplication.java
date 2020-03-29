@@ -51,19 +51,16 @@ public class UniversityApplication implements CommandLineRunner {
         Staff Moni = staffRepository.save(new Staff(new Person("Moni", "Appa")));
         Staff Ram = staffRepository.save(new Staff(new Person("Ram", "Lakhan")));
 
-
         //Departments
-
         Department humanities = departmentRepository.save(new Department("Humanities", siya));
-
+        Department naturalSciences = departmentRepository.save(new Department("NaturalSciences", laura));
 
         // Course
-
         Course chemistry = courseRepository.save(new Course("Chemistry", 3, siya, humanities));
         Course english101 = courseRepository.save(new Course("English101", 1, Sanvi, humanities));
         Course english102 = courseRepository.save(new Course("English102", 1, Sanvi, humanities));
         courseRepository.save(english102.addPrerequisite(english101));
 
-
+        courseRepository.save(new Course("Physics", 4, laura, naturalSciences));
     }
 }

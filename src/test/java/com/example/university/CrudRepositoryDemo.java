@@ -1,14 +1,17 @@
 package com.example.university;
 
-import com.example.university.domain.Course;
-import com.example.university.domain.Person;
-import com.example.university.domain.Student;
+import com.example.university.domain.*;
 import com.example.university.repo.CourseRepository;
+import com.example.university.repo.DepartmentRepository;
 import com.example.university.repo.StudentRepository;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
@@ -20,6 +23,9 @@ public class CrudRepositoryDemo {
 
     @Autowired
     CourseRepository courseRepository;
+
+    @Autowired
+    DepartmentRepository departmentRepository;
 
     @Test
     public void simpleStudentCrudExample() {
@@ -72,18 +78,32 @@ public class CrudRepositoryDemo {
      */
     @Test
     public void jpqlQueries() {
-        courseRepository.findByChairLastName("Sharma").forEach(System.out::println);
-
-        System.out.println("find course where Sharma is department chair member by last name method");
+        System.out.println("Find courses where Sharma is the department chair with property expression");
         courseRepository.findByDepartmentChairMemberLastName("Sharma").forEach(System.out::println);
 
-        System.out.println("Find the course English101");
-        Course english101 = courseRepository.findByName("English101");
+        System.out.println("Find the courses where sharma is the department chair using the query");
+        courseRepository.findByChairLastName("Sharma").forEach(System.out::println);
 
-        System.out.println("Find the course where English101 is prerequeisite");
-        System.out.println("english101 pid" + english101.getId());
-        courseRepository.findCourseByPrerequisites(english101.getId()).forEach(System.out::println);
+        Course course = courseRepository.findByName("English101");
+        System.out.println("Find Courses where english 101 is perquisites");
+        courseRepository.findCourseByPrerequisites(course.getId()).forEach(System.out::println);
+    }
 
-        System.out.println("\n Course view for the English101 " + courseRepository.getCourseView(english101.getId()));
+    @Test
+    public void pagingAndSortingQueries() {
+        System.out.println("Find the Department with the name 'humanities' \n " +
+                departmentRepository.findOne(Example.of(new Department("Humanities", null))));
+
+        System.out.println("Find the department with the first name of the chair is 'siya' \n");
+        departmentRepository.findAll(Example.of(new Department(null, new Staff(new Person("siya", null))))).forEach(System.out::println);
+
+        System.out.println("Find the department with name ending in 'sciences', case sensitive");
+        departmentRepository.findAll(Example.of(new Department("sciences", null), ExampleMatcher.matching().withIgnoreCase().withStringMatcher(ExampleMatcher.StringMatcher.ENDING))).forEach(System.out::println);
+    }
+
+    @Before
+    @After
+    public void printBanner() {
+        System.out.println("************************************************************************");
     }
 }
