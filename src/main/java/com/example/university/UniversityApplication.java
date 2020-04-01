@@ -43,13 +43,13 @@ public class UniversityApplication implements CommandLineRunner {
         Staff laura = staffRepository.save(new Staff(new Person("Laura", "ven")));
         Staff sara = staffRepository.save(new Staff(new Person("Sara", "Khan")));
         Staff siya = staffRepository.save(new Staff(new Person("Siya", "Sharma")));
-        Staff Avni = staffRepository.save(new Staff(new Person("Avni", "Joshi")));
+        Staff avni = staffRepository.save(new Staff(new Person("Avni", "Joshi")));
         Staff preeti = staffRepository.save(new Staff(new Person("Preeti", "Jain")));
-        Staff Rutu = staffRepository.save(new Staff(new Person("Rutu", "Varma")));
-        Staff Kate = staffRepository.save(new Staff(new Person("Kate", "Reddy")));
-        Staff Sanvi = staffRepository.save(new Staff(new Person("Sanvi", "Oberoi")));
-        Staff Moni = staffRepository.save(new Staff(new Person("Moni", "Appa")));
-        Staff Ram = staffRepository.save(new Staff(new Person("Ram", "Lakhan")));
+        Staff rutu = staffRepository.save(new Staff(new Person("Rutu", "Varma")));
+        Staff kate = staffRepository.save(new Staff(new Person("Kate", "Reddy")));
+        Staff sanvi = staffRepository.save(new Staff(new Person("Sanvi", "Oberoi")));
+        Staff moni = staffRepository.save(new Staff(new Person("Moni", "Appa")));
+        Staff ram = staffRepository.save(new Staff(new Person("Ram", "Lakhan")));
 
         //Departments
         Department humanities = departmentRepository.save(new Department("Humanities", siya));
@@ -57,8 +57,11 @@ public class UniversityApplication implements CommandLineRunner {
 
         // Course
         Course chemistry = courseRepository.save(new Course("Chemistry", 3, siya, humanities));
-        Course english101 = courseRepository.save(new Course("English101", 1, Sanvi, humanities));
-        Course english102 = courseRepository.save(new Course("English102", 1, Sanvi, humanities));
+        Course english101 = courseRepository.save(new Course("English101", 3, sanvi, humanities));
+        Course english102 = courseRepository.save(new Course("English102", 3, sanvi, humanities));
+        Course english202 = courseRepository.save(new Course("English202", 3, avni, humanities));
+        Course cprogramming = courseRepository.save(new Course("C programming", 3, kate, naturalSciences));
+        Course physics = courseRepository.save(new Course("Physics", 3, ram, naturalSciences));
         courseRepository.save(english102.addPrerequisite(english101));
 
         courseRepository.save(new Course("Physics", 4, laura, naturalSciences));

@@ -3,6 +3,7 @@ package com.example.university;
 import com.example.university.domain.*;
 import com.example.university.repo.CourseRepository;
 import com.example.university.repo.DepartmentRepository;
+import com.example.university.repo.StaffRepository;
 import com.example.university.repo.StudentRepository;
 import org.junit.After;
 import org.junit.Before;
@@ -10,8 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
@@ -26,6 +26,9 @@ public class CrudRepositoryDemo {
 
     @Autowired
     DepartmentRepository departmentRepository;
+
+    @Autowired
+    StaffRepository staffRepository;
 
     @Test
     public void simpleStudentCrudExample() {
@@ -90,7 +93,7 @@ public class CrudRepositoryDemo {
     }
 
     @Test
-    public void pagingAndSortingQueries() {
+    public void queryByExample() {
         System.out.println("Find the Department with the name 'humanities' \n " +
                 departmentRepository.findOne(Example.of(new Department("Humanities", null))));
 
@@ -99,6 +102,26 @@ public class CrudRepositoryDemo {
 
         System.out.println("Find the department with name ending in 'sciences', case sensitive");
         departmentRepository.findAll(Example.of(new Department("sciences", null), ExampleMatcher.matching().withIgnoreCase().withStringMatcher(ExampleMatcher.StringMatcher.ENDING))).forEach(System.out::println);
+    }
+
+    @Test
+    public void pagingAndSortingQueries() {
+        System.out.println("Find all 3-credit courses");
+        courseRepository.findByCredits(3).forEach(System.out::println);
+
+        System.out.println("Find first 4 3-credit courses, then sort by course name");
+        Page<Course> courses = courseRepository.findByCredits(3, PageRequest.of(0, 4, Sort.Direction.ASC, "credits", "name"));
+        courses.forEach(System.out::println);
+
+        System.out.println("\n find all staff members and sort alphabetically  by last name");
+        Sort sortByLastNames = Sort.by(Sort.Direction.ASC, "member.lastName");
+        staffRepository.findAll(sortByLastNames).forEach(System.out::println);
+
+        Page<Staff> members = staffRepository.findAll(PageRequest.of(0, 5, sortByLastNames));
+        System.out.println("\nTotal number of staff members : " + members.getTotalElements());
+        System.out.println("\nTotal number of 5-element pages : " + members.getTotalPages());
+        System.out.println("Find first 5 staff members, sort alphabetically by last name ");
+        members.forEach(System.out::println);
     }
 
     @Before
